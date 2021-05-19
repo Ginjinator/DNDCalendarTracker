@@ -1,8 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +20,7 @@ public class CreateCalendar {
     public CreateCalendar() {
         readFile();
         printDate();
+        holidays();
     }
     public CreateCalendar(int setDay, int setMonth) throws IOException {
         currentDay =  setDay;
@@ -57,19 +55,24 @@ public class CreateCalendar {
     // Add amount of time that passed
     public void addTime(int timePassed){
         int originalDay = currentDay;
+        int monthsPassed = 0;
+        int newDaysPassed = 0;
         currentDay += timePassed;
 
         //test to see if month/year ended
         if (currentDay > endOfMonth) {
-            int newDaysPassed = timePassed % endOfMonth;
-            currentDay = originalDay + newDaysPassed;
-            int monthsPassed = (timePassed - newDaysPassed) / endOfMonth;
+            newDaysPassed = currentDay % endOfMonth;
+            currentDay = newDaysPassed;
+            monthsPassed = (originalDay + timePassed) / endOfMonth;
             //test to see if year ended
             if (monthsPassed == 12) {
                 currentYear++;
             } else if (monthsPassed > 12) {
                 currentYear = currentYear + (monthsPassed / 12);
                 currentMonth = currentMonth + (monthsPassed % 12);
+            } else if (currentMonth == 11){
+                //Go back to start if year ends
+                currentMonth = monthsPassed - 1;
             } else {
                 currentMonth += monthsPassed;
             }
@@ -83,6 +86,7 @@ public class CreateCalendar {
         date.add(2, String.valueOf(currentYear));
 
         System.out.println("New date: " + getMonthName(currentMonth) + "/"  + currentDay + "/" + currentYear);
+        holidays();
     }
 
     // Write the date to a file
@@ -100,6 +104,14 @@ public class CreateCalendar {
             System.out.println("Error writing to file: ");
             ioEx.printStackTrace();
         }
+    }
+
+    public void holidays(){
+        CheckHolidays checkHolidays = new CheckHolidays(currentMonth, currentDay);
+        ArrayList<String> holidays = new ArrayList<>();
+        holidays.add(checkHolidays.checkMinorHoliday());
+        holidays.add(checkHolidays.checkMajorHoliday());
+        System.out.println(holidays.get(0) + "\n" + holidays.get(1));
     }
 
 

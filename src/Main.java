@@ -23,17 +23,19 @@ public class Main {
                 Thread.sleep(500);
             }
             kb = new Scanner(System.in);
-            System.out.println("Would you like to write this new date to file?");
-            String writeResponse = kb.next();
-            if ((writeResponse.equalsIgnoreCase("y") || writeResponse.equalsIgnoreCase("yes")) && !endProgram){
-                System.out.println("Writing to file...");
-                calendar.writeFile();
-            } else if ((writeResponse.equalsIgnoreCase("n") || writeResponse.equalsIgnoreCase("no") && !endProgram)) {
-                System.out.println("Ending...");
-                endProgram = true;
-                Thread.sleep(500);
+            if (!endProgram) {
+                System.out.println("Would you like to write this new date to file?");
+                String writeResponse = kb.next();
+                if ((writeResponse.equalsIgnoreCase("y") || writeResponse.equalsIgnoreCase("yes"))) {
+                    System.out.println("Writing to file...");
+                    calendar.writeFile();
+                } else if ((writeResponse.equalsIgnoreCase("n") || writeResponse.equalsIgnoreCase("no"))) {
+                    System.out.println("Ending...");
+                    endProgram = true;
+                    Thread.sleep(500);
+                }
+                kb.close();
             }
-            kb.close();
             /*int originalDay = calendar.getCurrentDay();
             int daysPassed;
 
