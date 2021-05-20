@@ -73,6 +73,7 @@ public class CreateCalendar {
             } else if (currentMonth == 11){
                 //Go back to start if year ends
                 currentMonth = monthsPassed - 1;
+                currentYear++;
             } else {
                 currentMonth += monthsPassed;
             }

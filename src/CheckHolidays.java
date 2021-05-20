@@ -4,10 +4,10 @@ public class CheckHolidays {
     private String[] majorHolidayDescription = {"Celebration the founding of the Alderian Empire.", "End of summer celebration, best harvest time.",
             "Celebration the dead of family and royalty (Halloween-like).",
             "Celebration of the middle of Autumn. Large feast for the last harvests, and is told that the moon is the closest to Ethendair this night. The moon also stays visible all day and night starting this day for a full week.",
-            "See family honor gods, and exchange gifts." };
-    private String[] minorHolidayDescription = {"Celebration of the middle of winter.",
-                                                "Celebration of the middle of spring.",
-                                                "Celebration of the middle of summer."};
+            "Celebratory day to see family, honor gods, and exchange gifts." };
+    private String[] minorHolidayDescription = {"Night of small celebration of the middle of winter.",
+                                                "Night of small celebration of the middle of spring.",
+                                                "Night of small celebration of the middle of summer."};
 
     private int currentMonth = 0;
     private int currentDay = 0;
@@ -22,7 +22,7 @@ public class CheckHolidays {
     public String checkMinorHoliday() {
         String minorHoliday = "No minor holiday today.";
         //Check for Mid-winter
-        if ((currentMonth == 11 && currentDay == 30)|| (currentMonth == 0 && currentDay == 1)){
+        if ((currentMonth == 0 && currentDay == 30) || (currentMonth == 1 && currentDay == 1)){
             minorHoliday = minorHolidays[0] + holidayToday + minorHolidayDescription[0];
         }
         // Check for Green-grass
@@ -38,23 +38,45 @@ public class CheckHolidays {
 
     //Checks if major holiday is in this month and if it is that day
     // TODO: how many days away it is?
-    // TODO: Add rest of holidays
     public String checkMajorHoliday() {
-        String majorHoliday = "No major holiday's in sight!";
+        String majorHoliday = "No major holiday in sight!";
+        boolean noHoliday = true;
         // Check Founding Day
         if(currentMonth == 4) {
             if (currentDay == 14) {
                 majorHoliday = majorHolidays[0] + holidayToday + majorHolidayDescription[0];
-            } else {
+            } else if (currentDay < 14){
                 majorHoliday = majorHolidays[0] + holidayNear + majorHolidayDescription[0];
             }
         }
         // Check for High-harvest
-        else if( currentMonth == 7 || currentMonth == 8) {
+        if(currentMonth == 7 || currentMonth == 8) {
             if ((currentMonth == 7 && currentDay == 30) || (currentMonth == 8 && currentDay == 1)){
                 majorHoliday = majorHolidays[1] + holidayToday + majorHolidayDescription[1];
             } else {
                 majorHoliday = majorHolidays[1] + holidayNear + majorHolidayDescription[1];
+            }
+        }
+        // Check for Night of Souls/Feast of the moon near
+        if(currentMonth == 9){
+            if (currentDay == 30) {
+                majorHoliday = majorHolidays[2] + holidayToday + majorHolidayDescription[2] + "\n"
+                        + majorHolidays[3] + holidayNear + majorHolidayDescription[3];
+            } else {
+                majorHoliday = majorHolidays[2] + holidayNear + majorHolidayDescription[2] + "\n"
+                    + majorHolidays[3] + holidayNear + majorHolidayDescription[3];
+            }
+        }
+        //Check for Feast of the moon
+        if(currentMonth == 10 && currentDay == 1) {
+            majorHoliday = majorHolidays[3] + holidayToday + majorHolidayDescription[3];
+        }
+        //Check for Angel's Hallow
+        if(currentMonth == 11) {
+            if (currentDay == 20){
+                majorHoliday = majorHolidays[4] + holidayToday + majorHolidayDescription[4];
+            } else if (currentDay < 20){
+                majorHoliday = majorHolidays[4] + holidayNear + majorHolidayDescription[4];
             }
         }
         return majorHoliday;
