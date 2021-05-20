@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        // TODO: Input validation?
+        // TODO: More input validation?
+        // TODO: More features?
         try {
             CreateCalendar calendar = new CreateCalendar();
             Scanner kb = new Scanner(System.in);
