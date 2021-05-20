@@ -11,8 +11,9 @@ public class CheckHolidays {
 
     private int currentMonth = 0;
     private int currentDay = 0;
+    private int daysLeft;
     private String holidayToday = " is today! What happens? ";
-    private String holidayNear = " is near! What is it? ";
+    private String holidayNear = String.format(" is %2d days away! What is it? ", daysLeft);
 
     public CheckHolidays(int month, int day){
         currentMonth = month;
@@ -37,15 +38,15 @@ public class CheckHolidays {
     }
 
     //Checks if major holiday is in this month and if it is that day
-    // TODO: how many days away it is?
     public String checkMajorHoliday() {
         String majorHoliday = "No major holiday in sight!";
-        boolean noHoliday = true;
         // Check Founding Day
         if(currentMonth == 4) {
             if (currentDay == 14) {
                 majorHoliday = majorHolidays[0] + holidayToday + majorHolidayDescription[0];
             } else if (currentDay < 14){
+                daysLeft = checkDaysLeft(currentDay, 14);
+                holidayNear = String.format(" is %2d days away! What is it? ", daysLeft);
                 majorHoliday = majorHolidays[0] + holidayNear + majorHolidayDescription[0];
             }
         }
@@ -53,18 +54,27 @@ public class CheckHolidays {
         if(currentMonth == 7 || currentMonth == 8) {
             if ((currentMonth == 7 && currentDay == 30) || (currentMonth == 8 && currentDay == 1)){
                 majorHoliday = majorHolidays[1] + holidayToday + majorHolidayDescription[1];
-            } else {
+            } else if (currentMonth == 7){
+                daysLeft = checkDaysLeft(currentDay, 30);
+                holidayNear = String.format(" is %2d days away! What is it? ", daysLeft);
                 majorHoliday = majorHolidays[1] + holidayNear + majorHolidayDescription[1];
             }
         }
         // Check for Night of Souls/Feast of the moon near
         if(currentMonth == 9){
             if (currentDay == 30) {
+                daysLeft = checkDaysLeft(currentDay, 30);
+                holidayNear = String.format(" is %2d days away! What is it? ", daysLeft);
                 majorHoliday = majorHolidays[2] + holidayToday + majorHolidayDescription[2] + "\n"
                         + majorHolidays[3] + holidayNear + majorHolidayDescription[3];
             } else {
-                majorHoliday = majorHolidays[2] + holidayNear + majorHolidayDescription[2] + "\n"
-                    + majorHolidays[3] + holidayNear + majorHolidayDescription[3];
+                daysLeft = checkDaysLeft(currentDay, 30);
+                holidayNear = String.format(" is %2d days away! What is it? ", daysLeft);
+                majorHoliday = majorHolidays[2] + holidayNear + majorHolidayDescription[2];
+                //Feast of the Moon is right after so just increase by 1
+                daysLeft++;
+                holidayNear = String.format(" is %2d days away! What is it? ", daysLeft);
+                majorHoliday += "\n" + majorHolidays[3] + holidayNear + majorHolidayDescription[3];
             }
         }
         //Check for Feast of the moon
@@ -76,10 +86,16 @@ public class CheckHolidays {
             if (currentDay == 20){
                 majorHoliday = majorHolidays[4] + holidayToday + majorHolidayDescription[4];
             } else if (currentDay < 20){
+                daysLeft = checkDaysLeft(currentDay, 20);
+                holidayNear = String.format(" is %2d days away! What is it? ", daysLeft);
                 majorHoliday = majorHolidays[4] + holidayNear + majorHolidayDescription[4];
             }
         }
         return majorHoliday;
+    }
+
+    public int checkDaysLeft(int currentDay, int holidayDate){
+        return (holidayDate - currentDay);
     }
 
 }
