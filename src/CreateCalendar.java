@@ -115,6 +115,10 @@ public class CreateCalendar {
         System.out.println(holidays.get(0) + "\n" + holidays.get(1));
     }
 
+    public void printCalendar(){
+        System.out.println("Print Calendar");
+    }
+
 
     public String[] getMonths(){
         return months;

@@ -7,13 +7,13 @@ public class Main {
 
     public static void main(String[] args) {
         // TODO: More input validation?
-        // TODO: More features?
+        // TODO: Print out the calendar
         try {
             CreateCalendar calendar = new CreateCalendar();
             Scanner kb = new Scanner(System.in);
             boolean retry = true;
             boolean endProgram = false;
-            System.out.println("Would you like to add time? (y/n)");
+            System.out.println("Would you like to add time? (y/n) or print calendar? (pc)");
             // If retry, go through again. Input validation
             while (retry) {
                 String response = kb.next();
@@ -27,8 +27,12 @@ public class Main {
                     endProgram = true;
                     retry = false;
                     Thread.sleep(500);
+                } else if (response.equalsIgnoreCase("pc")) {
+                    System.out.println("Printing Calendar...");
+                    retry = false;
+                    calendar.printCalendar();
                 } else {
-                    System.out.println("Invalid answer. \nAdd time? (y/n)");
+                    System.out.println("Invalid answer. \nAdd time? (y/n) or print calender? (pc)");
                     retry = true;
                 }
             }
